@@ -75,6 +75,21 @@ class ViewController: UIViewController, URLSessionDelegate {
         nameSymbol.addGestureRecognizer(tap)
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "goToDetails" {
+            let destinationVC = segue.destination as! SymbolDetailsViewController
+            destinationVC.name = symbol.name
+            destinationVC.last = symbol.quote.last
+            destinationVC.high = symbol.quote.high
+            destinationVC.low = symbol.quote.low
+            destinationVC.bid = symbol.quote.bid
+            destinationVC.ask = symbol.quote.ask
+            destinationVC.volume = symbol.quote.volume
+            destinationVC.change = symbol.quote.change
+            destinationVC.changePercent = symbol.quote.changePercent
+        }
+    }
+    
     @objc
     func tapFunction(sender: UITapGestureRecognizer){
         switch nameOrder {
@@ -220,8 +235,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        var tempSymbol = SymbolsData()
-        tempSymbol = results[indexPath.row]
+        symbol = results[indexPath.row]
         self.performSegue(withIdentifier: "goToDetails", sender: self)
     }
 }

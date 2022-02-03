@@ -18,14 +18,14 @@ struct SymbolsData {
     var decorativeName: String
     var quote: QuoteData
     init() {
-        self.id = ""
-        self.name = ""
-        self.tickerSymbol = ""
-        self.isin = ""
-        self.currency = ""
-        self.stockExchangeName = ""
-        self.decorativeName = ""
-        self.quote = QuoteData()
+        id = ""
+        name = ""
+        tickerSymbol = ""
+        isin = ""
+        currency = ""
+        stockExchangeName = ""
+        decorativeName = ""
+        quote = QuoteData()
     }
 }
 
@@ -40,19 +40,55 @@ struct QuoteData {
     var change: Double
     var changePercent: Double
     init() {
-        self.last = 0
-        self.high = 0
-        self.low = 0
-        self.bid = 0
-        self.ask = 0
-        self.volume = 0
-        self.dateTime = ""
-        self.change = 0
-        self.changePercent = 0
+        last = 0
+        high = 0
+        low = 0
+        bid = 0
+        ask = 0
+        volume = 0
+        dateTime = ""
+        change = 0
+        changePercent = 0
     }
 }
 
-//class SymbolParser: NSObject {
-//    var xmlParser: XMLParser?
-//    var games: []
-//}
+struct NewsData {
+    var id: String
+    var author: String
+    var dateTime: String
+    var sourceName: String
+    var headLine: HeadLine
+    var picTT: PicTT
+    init() {
+        id = ""
+        author = ""
+        dateTime = ""
+        sourceName = ""
+        headLine = HeadLine()
+        picTT = PicTT()
+    }
+}
+
+struct HeadLine {
+    var textHeadline: String
+    init() {
+        textHeadline = ""
+    }
+}
+
+struct PicTT {
+    var imageId: Int
+    init() {
+        imageId = 0
+    }
+}
+
+struct NewsModel {
+    var headline: String
+    var image: UIImage
+    init() {
+        headline = ""
+        image = UIImage()
+    }
+}
+

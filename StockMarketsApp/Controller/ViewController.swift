@@ -17,10 +17,18 @@ class ViewController: UIViewController, URLSessionDelegate {
         case desc
     }
     var nameOrder = nameState.random
-    //var nameState
+    let symbolURL = "https://www.teletrader.rs/downloads/tt_symbol_list.xml"
+    let newsURL = "https://www.teletrader.rs/downloads/tt_news_list.xml"
+    
     var results = [SymbolsData]()
     var randomOrder = [SymbolsData]()
     var symbol = SymbolsData()
+    
+    
+    var news = NewsData()
+    var newsResults = [NewsData]()
+    var newsModelDataResults = [NewsModel]()
+    
     var user: String {
         get {
             guard let filePath = Bundle.main.path(forResource: "basicAccessAuthentication-Info", ofType: "plist") else {
@@ -49,6 +57,27 @@ class ViewController: UIViewController, URLSessionDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        urlReading(urlForReading: symbolURL)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.urlReading(urlForReading: self.newsURL)
+        }
+        
+        tableView.register(SymbolTableViewCell.nib(), forCellReuseIdentifier: SymbolTableViewCell.identifier)
+        tableView.delegate = self
+        tableView.dataSource = self
+        // za kliktanje Name labela da se promeni redosled
+        let tap = UITapGestureRecognizer(target: self, action: #selector(ViewController.tapFunction))
+        nameSymbol.addGestureRecognizer(tap)
+    }
+    
+    @IBAction func newsPressed(_ sender: UITabBarItem) {
+        self.performSegue(withIdentifier: "goToNews", sender: self)
+    }
+    
+    func urlReading(urlForReading: String) {
         let config = URLSessionConfiguration.default
         let userPasswordData = "\(user):\(password)".data(using: .utf8)
         let base64EncodedCredential = userPasswordData!.base64EncodedString()
@@ -56,7 +85,7 @@ class ViewController: UIViewController, URLSessionDelegate {
         config.httpAdditionalHeaders = ["Authorization" : authString]
         let session = URLSession(configuration: config, delegate: self, delegateQueue: OperationQueue())
 
-        let url = URL(string: "https://www.teletrader.rs/downloads/tt_symbol_list.xml")
+        let url = URL(string: urlForReading)
         let task = session.dataTask(with: url!) { data, response, error in
             if error != nil {
                 print(error!.localizedDescription)
@@ -67,12 +96,6 @@ class ViewController: UIViewController, URLSessionDelegate {
             }
         }
         task.resume()
-        tableView.register(SymbolTableViewCell.nib(), forCellReuseIdentifier: SymbolTableViewCell.identifier)
-        tableView.delegate = self
-        tableView.dataSource = self
-        // za kliktanje Name labela da se promeni redosled
-        let tap = UITapGestureRecognizer(target: self, action: #selector(ViewController.tapFunction))
-        nameSymbol.addGestureRecognizer(tap)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -87,6 +110,10 @@ class ViewController: UIViewController, URLSessionDelegate {
             destinationVC.volume = symbol.quote.volume
             destinationVC.change = symbol.quote.change
             destinationVC.changePercent = symbol.quote.changePercent
+        }
+        if segue.identifier == "goToNews" {
+            let destinationVC = segue.destination as! NewsSectionViewController
+            destinationVC.results = newsModelDataResults
         }
     }
     
@@ -192,6 +219,27 @@ extension ViewController: XMLParserDelegate {
                 symbol.decorativeName = decorativeName
             }
         }
+        if elementName == "NewsArticle" {
+            self.news = NewsData()
+            if let id = attributeDict["id"]{
+                news.id = id
+            }
+            if let author = attributeDict["author"] {
+                news.author = author
+            }
+            if let dateTime = attributeDict["dateTime"] {
+                news.dateTime = dateTime
+            }
+            if let sourceName = attributeDict["sourceName"] {
+                news.sourceName = sourceName
+            }
+        }
+    }
+    
+    func parser(_ parser: XMLParser, foundCDATA CDATABlock: Data) {
+        if let someString = String(data: CDATABlock, encoding: .utf8) {
+            news.headLine.textHeadline = someString
+        }
     }
     
     func parser(_ parser: XMLParser, foundCharacters string: String) {
@@ -202,15 +250,39 @@ extension ViewController: XMLParserDelegate {
         if elementName == "Symbol" {
             results.append(symbol)
         }
+        if elementName == "ImageID" {
+            news.picTT.imageId = Int(foundCharacters.trimmingCharacters(in: NSCharacterSet.whitespacesAndNewlines))!
+        }
+        if elementName == "NewsArticle" {
+            newsResults.append(news)
+        }
+        
         self.foundCharacters = ""
     }
     func parserDidEndDocument(_ parser: XMLParser) {
         randomOrder = results
+        for newsData in newsResults {
+            var newsModelData = NewsModel()
+            newsModelData.headline = newsData.headLine.textHeadline
+            if let url = URL(string: "https://cdn.ttweb.net/News/images/\(newsData.picTT.imageId).jpg?preset=w220_q40") {
+                let task = URLSession.shared.dataTask(with: url) { data, response, error in
+                    guard let data = data, error == nil else { return }
+
+                    DispatchQueue.main.async {
+                        newsModelData.image = UIImage(data: data)!
+                    }
+                }
+                task.resume()
+            }
+            newsModelDataResults.append(newsModelData)
+        }
+        
     }
 }
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: SymbolTableViewCell.identifier, for: indexPath) as! SymbolTableViewCell
         cell.configure(with: results[indexPath.row])
         return cell
@@ -239,6 +311,5 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         self.performSegue(withIdentifier: "goToDetails", sender: self)
     }
 }
-    
 
 

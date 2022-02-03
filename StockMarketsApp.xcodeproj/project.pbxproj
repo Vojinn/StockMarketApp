@@ -18,6 +18,9 @@
 		241BE19D27A95B7400833945 /* SymbolTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241BE19B27A95B7400833945 /* SymbolTableViewCell.swift */; };
 		241BE19E27A95B7400833945 /* SymbolTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 241BE19C27A95B7400833945 /* SymbolTableViewCell.xib */; };
 		241BE1A227A9BBA600833945 /* SymbolDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241BE1A127A9BBA600833945 /* SymbolDetailsViewController.swift */; };
+		241BE1A427AACD9100833945 /* NewsSectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241BE1A327AACD9100833945 /* NewsSectionViewController.swift */; };
+		241BE1A727AACE0400833945 /* NewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241BE1A527AACE0400833945 /* NewsTableViewCell.swift */; };
+		241BE1A827AACE0400833945 /* NewsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 241BE1A627AACE0400833945 /* NewsTableViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +37,9 @@
 		241BE19B27A95B7400833945 /* SymbolTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolTableViewCell.swift; sourceTree = "<group>"; };
 		241BE19C27A95B7400833945 /* SymbolTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SymbolTableViewCell.xib; sourceTree = "<group>"; };
 		241BE1A127A9BBA600833945 /* SymbolDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolDetailsViewController.swift; sourceTree = "<group>"; };
+		241BE1A327AACD9100833945 /* NewsSectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsSectionViewController.swift; sourceTree = "<group>"; };
+		241BE1A527AACE0400833945 /* NewsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTableViewCell.swift; sourceTree = "<group>"; };
+		241BE1A627AACE0400833945 /* NewsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsTableViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +98,7 @@
 			children = (
 				241BE18627A8111F00833945 /* Main.storyboard */,
 				241BE19C27A95B7400833945 /* SymbolTableViewCell.xib */,
+				241BE1A627AACE0400833945 /* NewsTableViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -102,6 +109,8 @@
 				241BE19B27A95B7400833945 /* SymbolTableViewCell.swift */,
 				241BE18427A8111F00833945 /* ViewController.swift */,
 				241BE1A127A9BBA600833945 /* SymbolDetailsViewController.swift */,
+				241BE1A327AACD9100833945 /* NewsSectionViewController.swift */,
+				241BE1A527AACE0400833945 /* NewsTableViewCell.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -168,6 +177,7 @@
 				241BE18A27A8112000833945 /* Assets.xcassets in Resources */,
 				241BE18827A8111F00833945 /* Main.storyboard in Resources */,
 				241BE19A27A882D500833945 /* basicAccessAuthentication-Info.plist in Resources */,
+				241BE1A827AACE0400833945 /* NewsTableViewCell.xib in Resources */,
 				241BE19E27A95B7400833945 /* SymbolTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -181,6 +191,8 @@
 			files = (
 				241BE19827A81AF100833945 /* SymbolsData.swift in Sources */,
 				241BE18527A8111F00833945 /* ViewController.swift in Sources */,
+				241BE1A727AACE0400833945 /* NewsTableViewCell.swift in Sources */,
+				241BE1A427AACD9100833945 /* NewsSectionViewController.swift in Sources */,
 				241BE18127A8111F00833945 /* AppDelegate.swift in Sources */,
 				241BE19D27A95B7400833945 /* SymbolTableViewCell.swift in Sources */,
 				241BE18327A8111F00833945 /* SceneDelegate.swift in Sources */,
